@@ -1,0 +1,141 @@
+<html>
+	<head>
+		<title>Быстрая сортировка</title>
+
+	</head>
+	<body>
+	<!--input oninput=quickSort() /-->
+		<div id="output" style="display: block; position: relative; width: 500px; height: 200px; background-color: lightgreen">
+		</div>
+		<div id="process" style="margin: 0 auto; display: block; position: relative; width: 500px; height: 200px; background-color: lightblue">
+		</div>
+				<script>
+		window.onload = function() {
+			var arr = [];
+			var arrMax = 10;
+			//randFillArr(arr,arrMax);
+			fillArr(arr,arrMax);
+			bubbleSort(arr);
+		};
+		
+		function fillArr(arr,arrMax){
+			document.write('<br>Заполнение массива:<br>');
+			var i;
+			for (i = 0; i < arrMax; i++) {
+				arr[i] = i
+			}
+			output(arr);
+			document.write('<br>Элементы массива меняются местами случайным образом:<br>');
+			output(randSwap(arr));
+			return arr;
+		}
+		/*всплытие
+		function bubbleSort(arr){
+			document.write('<br>BubbleSort...<br>');
+			var i;
+			for (n = 0; n - arr.length; n++){
+			document.write('<br>Проход № '+n+': ');
+			for (i = arr.length-1; i > 0; i--) {
+				if (arr[i-1] > arr[i]) {
+				//document.write('<br>swap '+arr[i-1]+' <> '+arr[i]+'<br>');
+				swapElements(arr,i-1,i);
+				//document.write('<br>Результат: ');
+				//document.write('<br>^^^^^^^^^^^^^^^^<br>');
+				}
+			}
+			output(arr);
+			}
+			return arr;
+		}
+			*/
+			
+			/*погружение*/
+		function bubbleSort(arr){
+			document.write('<br>===============<br>BubbleSort ');
+			output(arr);
+			document.write(' ...<br>');
+			var i;
+			var n;
+			var o;
+			var matchingCounter = 0;
+			var actionCounter = 0;
+			for (n = arr.length-1; (n > 0); n--){
+			document.write('<br>Проход № '+(10-n)+': ');
+				for (i = 0; i < n; i++) {
+				document.write('<br>i = '+i+': ');
+					matchingCounter++;
+					if (arr[i] > arr[i+1]) {
+					//document.write('<br>swap '+arr[i]+' <> '+arr[i+1]+'<br>');
+					swapElements(arr,i+1,i);
+					actionCounter++;
+					//document.write('<br>Результат: ');
+					//document.write('<br>^^^^^^^^^^^^^^^^<br>');
+					}
+					document.write('сортировка этой части еще не завершена [');
+					for (o = 0; o < arr.length; o++) {
+						if (o == i) {
+							document.write('<span style="color: red; font-weight: bolder;">');
+						} else 	{document.write(' ')}
+						document.write(' '+arr[o]+' ');
+						if (o == (i+1)) {
+							document.write('</span>');
+						}
+						if (o == n) {
+							if (n < arr.length-1) {
+							document.write('<span style="color: green; font-weight: bolder;">');
+							}
+						}
+						if (o == arr.length-1) {
+							document.write('</span>]');
+						}
+					}
+				}
+					document.write('<br><span style="display: inline-block; border: 1px solid black; padding: 5px"><span style="color: red; font-weight: bolder">красные</span> элементы проверены и переставлены, <span style="color: green; font-weight: bolder">зеленые</span> элементы уже на своих местах</span><br>');
+			}
+			//var arrOutput = output(arr);
+			document.getElementById('output').innerHTML = '<br>BubbleSort completed: '+output(arr)+'<br>================================<br>Количество сравнений: '+matchingCounter+'<br>Количество перестановок в массиве: '+actionCounter;
+			return arr;
+		}
+			
+		function randFillArr(arr,arrMax){
+			var i;
+			for (i = 0; i < arrMax; i++) {
+				arr[i] = getRandom(0, arrMax-1)
+			}
+			return arr;
+		}
+			
+		function randSwap(arr){
+			var i;
+			var rand;
+			for (i = 0; i < arr.length; i++) {
+				swapElements(arr,i,getRandom(0, arr.length-1));			
+			}
+			return arr;
+		}
+					
+		function swapElements(arr,a,b){
+			swap = arr[a];
+			arr[a] = arr[b];
+			arr[b] = swap;
+			return arr;
+		}
+			
+		function output(arr) {
+			var i;
+			document.write('[ ');
+			for (i = 0; i < arr.length; i++) {
+				document.write(arr[i]+'  ')
+			}
+			document.write(' ]');
+			return arr;
+		}
+			
+		function getRandom(min, max){
+			return Math.round(Math.random() * (max - min) + min);
+		}
+
+		
+		</script>
+	</body>
+</html>
