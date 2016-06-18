@@ -1,32 +1,36 @@
 <html>
 	<head>
-		<title>Быстрая сортировка</title>
-
+		<title>BubbleSort</title>
+<meta name="viewport" content="width=500, initial-scale=.8"/>
 	</head>
-	<body>
+	<body style="margin: 0; padding: 0;">
 	<!--input oninput=quickSort() /-->
-		<div id="output" style="display: block; position: relative; width: 500px; height: 200px; background-color: lightgreen">
+		<div id="results" style="margin: 0 auto; padding: 5px; display: block; position: relative; width: 500px; min-height: 200px; background-color: lightgreen">
+		<h3>BubbleSort (пузырьковая сортировка)</h3>
 		</div>
-		<div id="process" style="margin: 0 auto; display: block; position: relative; width: 500px; height: 200px; background-color: lightblue">
+		<a href="https://habrahabr.ru/post/204600/"><img src="https://habrastorage.org/getpro/habr/post_images/187/5a3/929/1875a3929dd14c8ea5ff4ccc3d0db9bd.gif" style="margin: 0 auto; display: block; position: relative; width: 500px; height: auto"></a>
+		<div id="process" style="margin: 0 auto; padding: 5px; display: block; position: relative; width: 500px; min-height: 200px; background-color: lightblue">
 		</div>
-				<script>
+		<script>
 		window.onload = function() {
 			var arr = [];
 			var arrMax = 10;
+			var results = document.getElementById('results');
+			var process = document.getElementById('process');
 			//randFillArr(arr,arrMax);
 			fillArr(arr,arrMax);
 			bubbleSort(arr);
 		};
 		
 		function fillArr(arr,arrMax){
-			document.write('<br>Заполнение массива:<br>');
+			results.appendChild(document.createElement("div")).innerHTML = 'Заполнение массива:<br>';
 			var i;
 			for (i = 0; i < arrMax; i++) {
 				arr[i] = i
 			}
-			output(arr);
-			document.write('<br>Элементы массива меняются местами случайным образом:<br>');
-			output(randSwap(arr));
+			results.appendChild(document.createElement("div")).innerHTML = output(arr);
+			results.appendChild(document.createElement("div")).innerHTML = 'Элементы массива меняются местами случайным образом:';
+			results.appendChild(document.createElement("div")).innerHTML = output(randSwap(arr));
 			return arr;
 		}
 		/*всплытие
@@ -51,18 +55,16 @@
 			
 			/*погружение*/
 		function bubbleSort(arr){
-			document.write('<br>===============<br>BubbleSort ');
-			output(arr);
-			document.write(' ...<br>');
+			process.appendChild(document.createElement("div")).innerHTML = 'Подробности<br>===============<br>BubbleSort '+ output(arr) + ' ...<br>';
 			var i;
 			var n;
 			var o;
 			var matchingCounter = 0;
 			var actionCounter = 0;
 			for (n = arr.length-1; (n > 0); n--){
-			document.write('<br>Проход № '+(10-n)+': ');
+			process.appendChild(document.createElement("div")).innerHTML ='<br>Проход № '+(10-n)+': ';
 				for (i = 0; i < n; i++) {
-				document.write('<br>i = '+i+': ');
+				process.appendChild(document.createElement("span")).innerHTML ='<br>Пара № '+(i+1)+': ';
 					matchingCounter++;
 					if (arr[i] > arr[i+1]) {
 					//document.write('<br>swap '+arr[i]+' <> '+arr[i+1]+'<br>');
@@ -71,29 +73,40 @@
 					//document.write('<br>Результат: ');
 					//document.write('<br>^^^^^^^^^^^^^^^^<br>');
 					}
-					document.write('сортировка этой части еще не завершена [');
+					process.appendChild(document.createElement("span")).innerHTML = 'сортировка в процессе [';
+						var arrInProgress = '';
 					for (o = 0; o < arr.length; o++) {
 						if (o == i) {
-							document.write('<span style="color: red; font-weight: bolder;">');
-						} else 	{document.write(' ')}
-						document.write(' '+arr[o]+' ');
+							//process.appendChild(document.createElement("span")).innerHTML = '<span style="color: red; font-weight: bolder;">';
+							arrInProgress = arrInProgress + '<span style="color: red; font-weight: bolder;">';
+						} else 	{
+						/*process.appendChild(document.createElement("span")).innerHTML = ' '*/
+						arrInProgress = arrInProgress + ' ';
+						}
+						//process.appendChild(document.createElement("span")).innerHTML = ' '+arr[o]+' ';
+						arrInProgress = arrInProgress + ' '+arr[o]+' ';
 						if (o == (i+1)) {
-							document.write('</span>');
+							//process.appendChild(document.createElement("span")).innerHTML = '</span>';
+							arrInProgress = arrInProgress + '</span>';
 						}
 						if (o == n) {
 							if (n < arr.length-1) {
-							document.write('<span style="color: green; font-weight: bolder;">');
+							//process.appendChild(document.createElement("span")).innerHTML = '<span style="color: green; font-weight: bolder;">';
+							arrInProgress = arrInProgress + '<span style="color: green; font-weight: bolder;">';
 							}
 						}
 						if (o == arr.length-1) {
-							document.write('</span>]');
+							//process.appendChild(document.createElement("span")).innerHTML = '</span>]';
+							arrInProgress = arrInProgress + '</span>]';
 						}
 					}
+					process.appendChild(document.createElement("span")).innerHTML = arrInProgress;
 				}
-					document.write('<br><span style="display: inline-block; border: 1px solid black; padding: 5px"><span style="color: red; font-weight: bolder">красные</span> элементы проверены и переставлены, <span style="color: green; font-weight: bolder">зеленые</span> элементы уже на своих местах</span><br>');
+					process.appendChild(document.createElement("div")).innerHTML = '<br><span style="display: inline-block; border: 1px solid black; padding: 5px"><span style="color: red; font-weight: bolder">красные</span> элементы проверены и переставлены, <span style="color: green; font-weight: bolder">зеленые</span> элементы уже на своих местах</span><br>';
 			}
 			//var arrOutput = output(arr);
-			document.getElementById('output').innerHTML = '<br>BubbleSort completed: '+output(arr)+'<br>================================<br>Количество сравнений: '+matchingCounter+'<br>Количество перестановок в массиве: '+actionCounter;
+			results.appendChild(document.createElement("div")).innerHTML = '<br>Сортировка завершена:<br>'+output(arr)+'<br>================================<br>Количество сравнений: '+matchingCounter+'<br>Количество перестановок в массиве: '+actionCounter;
+			process.appendChild(document.createElement("div")).innerHTML = '<br>Сортировка завершена:<br>'+output(arr)+'<br>================================<br>Количество сравнений: '+matchingCounter+'<br>Количество перестановок в массиве: '+actionCounter;
 			return arr;
 		}
 			
@@ -123,12 +136,13 @@
 			
 		function output(arr) {
 			var i;
-			document.write('[ ');
+			var printArr = '';
+			printArr = printArr + '[ ';
 			for (i = 0; i < arr.length; i++) {
-				document.write(arr[i]+'  ')
+				printArr = printArr + arr[i]+'  ';
 			}
-			document.write(' ]');
-			return arr;
+			printArr = printArr + ' ]';
+			return printArr;
 		}
 			
 		function getRandom(min, max){
